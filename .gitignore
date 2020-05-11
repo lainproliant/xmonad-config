@@ -2,3 +2,5 @@ xmonad-x86_64-linux
 xmonad.errors
 xmonad.hi
 xmonad.o
+.mypy_cache
+__pycache__

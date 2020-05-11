@@ -85,15 +85,14 @@ dbusOutput dbus str = do
 
 main = do
    spawn "~/.dotfiles/xinit/twm-common"
-   spawn "~/.dotfiles/xinit/xmonad"
    dbus <- D.connectSession
    D.requestName dbus (D.busName_ "org.xmonad.Log")
       [D.nameAllowReplacement, D.nameReplaceExisting, D.nameDoNotQueue]
    xmonad $ ewmh $ withUrgencyHook NoUrgencyHook $ defaultConfig
       { startupHook = setWMName "LG3D"
       , borderWidth = 2
-      , normalBorderColor = "#dab478"
-      , focusedBorderColor = "#FFFFFF"
+      , normalBorderColor = "#231a40"
+      , focusedBorderColor = "#b08ae6"
       , focusFollowsMouse = False
       , workspaces = myWorkspaces
       , layoutHook = smartBorders $ myLayout
@@ -122,3 +121,4 @@ main = do
       , (( mod1Mask .|. shiftMask, xK_d), spawn "~/.util/monitor-setup-3")
       , (( mod1Mask .|. shiftMask, xK_f), spawn "~/.util/monitor-setup-4")
       ]
+
