@@ -85,6 +85,7 @@ dbusOutput dbus str = do
 
 main = do
    spawn "~/.dotfiles/xinit/twm-common"
+   spawn "~/.dotfiles/xinit/xmonad"
    dbus <- D.connectSession
    D.requestName dbus (D.busName_ "org.xmonad.Log")
       [D.nameAllowReplacement, D.nameReplaceExisting, D.nameDoNotQueue]
@@ -121,4 +122,3 @@ main = do
       , (( mod1Mask .|. shiftMask, xK_d), spawn "~/.util/monitor-setup-3")
       , (( mod1Mask .|. shiftMask, xK_f), spawn "~/.util/monitor-setup-4")
       ]
-
