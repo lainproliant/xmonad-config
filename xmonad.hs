@@ -92,15 +92,15 @@ main = do
    xmonad $ ewmh $ withUrgencyHook NoUrgencyHook $ defaultConfig
       { startupHook = setWMName "LG3D"
       , borderWidth = 2
-      , normalBorderColor = "#231a40"
-      , focusedBorderColor = "#b08ae6"
+      , normalBorderColor = "#ffffff"
+      , focusedBorderColor = "#404040"
       , focusFollowsMouse = False
       , workspaces = myWorkspaces
       , layoutHook = smartBorders $ myLayout
       , manageHook = myManageHook
       , handleEventHook = docksEventHook
       , logHook = dynamicLogWithPP (myLogHook dbus)
-      , terminal = "termite"
+      , terminal = "~/.util/terminal"
       , modMask = mod1Mask
       }
 

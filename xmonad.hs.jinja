@@ -100,7 +100,7 @@ main = do
       , manageHook = myManageHook
       , handleEventHook = docksEventHook
       , logHook = dynamicLogWithPP (myLogHook dbus)
-      , terminal = "termite"
+      , terminal = "~/.util/terminal"
       , modMask = mod1Mask
       }
 
