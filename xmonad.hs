@@ -65,7 +65,7 @@ myManageHook = (composeAll . concat $
     , [manageHook defaultConfig]
     ]) where
       myIgnores = ["conky"]
-      myFloats = ["Guake", "Gimp"]
+      myFloats = ["Gimp", "Guake"]
       myBorderless = ["Guake"]
 
 myKeys =
@@ -118,8 +118,8 @@ main = do
    xmonad $ ewmh $ withUrgencyHook NoUrgencyHook $ defaultConfig
       { startupHook = setWMName "LG3D"
       , borderWidth = 2
-      , normalBorderColor = "#292a44"
-      , focusedBorderColor = "#f1eff8"
+      , normalBorderColor = "#001535"
+      , focusedBorderColor = "#ffffff"
       , focusFollowsMouse = False
       , workspaces = myWorkspaces
       , layoutHook = smartBorders $ myLayout
