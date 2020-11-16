@@ -68,27 +68,29 @@ myManageHook = (composeAll . concat $
       myFloats = ["Gimp", "Guake"]
       myBorderless = ["Guake"]
 
+xmonadModKey = mod1Mask
+
 myKeys =
-    [ (( mod1Mask, xK_Return ), spawn "~/.util/program_menu")
-    , (( mod1Mask, xK_Tab ), spawn "~/.util/window_menu")
-    , (( mod1Mask, xK_backslash ), spawn "~/.util/host_menu")
-    , (( mod1Mask .|. shiftMask, xK_l ), spawn "~/.util/lock")
-    , (( mod1Mask, xK_o), spawn "nextbg.py")
-    , (( mod1Mask, xK_p), spawn "nextbg.py --prev")
-    , (( mod1Mask .|. shiftMask, xK_p), spawn "~/.util/macro")
-    , (( mod1Mask, xK_i), windows W.swapMaster)
-    , (( mod1Mask .|. shiftMask, xK_m), spawn "~/.util/enable_touchpad")
-    , (( mod1Mask .|. shiftMask, xK_n), spawn "~/.util/disable_touchpad")
-    , (( mod1Mask, xK_b), sendMessage ToggleStruts)
-    , (( mod1Mask .|. shiftMask, xK_b), withFocused toggleBorder)
-    , (( mod1Mask .|. shiftMask, xK_a), spawn "~/.util/monitor-setup-1")
-    , (( mod1Mask .|. shiftMask, xK_s), spawn "~/.util/monitor-setup-2")
-    , (( mod1Mask .|. shiftMask, xK_d), spawn "~/.util/monitor-setup-3")
-    , (( mod1Mask .|. shiftMask, xK_f), spawn "~/.util/monitor-setup-4")
-    ] ++ [((m .|. mod1Mask, k), windows $ f i) -- Replace 'mod1Mask' with your mod key of choice.
+    [ (( xmonadModKey, xK_Return ), spawn "~/.util/program_menu")
+    , (( xmonadModKey, xK_Tab ), spawn "~/.util/window_menu")
+    , (( xmonadModKey, xK_backslash ), spawn "~/.util/host_menu")
+    , (( xmonadModKey .|. shiftMask, xK_l ), spawn "~/.util/lock")
+    , (( xmonadModKey, xK_o), spawn "nextbg.py")
+    , (( xmonadModKey, xK_p), spawn "nextbg.py --prev")
+    , (( xmonadModKey .|. shiftMask, xK_p), spawn "~/.util/macro")
+    , (( xmonadModKey, xK_i), windows W.swapMaster)
+    , (( xmonadModKey .|. shiftMask, xK_m), spawn "~/.util/enable_touchpad")
+    , (( xmonadModKey .|. shiftMask, xK_n), spawn "~/.util/disable_touchpad")
+    , (( xmonadModKey, xK_b), sendMessage ToggleStruts)
+    , (( xmonadModKey .|. shiftMask, xK_b), withFocused toggleBorder)
+    , (( xmonadModKey .|. shiftMask, xK_a), spawn "~/.util/monitor-setup-1")
+    , (( xmonadModKey .|. shiftMask, xK_s), spawn "~/.util/monitor-setup-2")
+    , (( xmonadModKey .|. shiftMask, xK_d), spawn "~/.util/monitor-setup-3")
+    , (( xmonadModKey .|. shiftMask, xK_f), spawn "~/.util/monitor-setup-4")
+    ] ++ [((m .|. xmonadModKey, k), windows $ f i) -- Replace 'xmonadModKey' with your mod key of choice.
          | (i, k) <- zip myWorkspaces [xK_1 .. xK_9]
          , (f, m) <- [(W.view, 0), (W.shift, shiftMask)]
-    ] ++ [((m .|. mod1Mask .|. controlMask, k), windows $ f i) -- Replace 'mod1Mask' with your mod key of choice.
+    ] ++ [((m .|. xmonadModKey .|. controlMask, k), windows $ f i) -- Replace 'xmonadModKey' with your mod key of choice.
          | (i, k) <- zip myWorkspaces [xK_1 .. xK_9]
          , (f, m) <- [(W.greedyView, 0), (W.shift, shiftMask)]
     ]
@@ -127,7 +129,7 @@ main = do
       , handleEventHook = docksEventHook
       , logHook = dynamicLogWithPP (myLogHook dbus)
       , terminal = "~/.util/terminal"
-      , modMask = mod1Mask
+      , modMask = xmonadModKey
       }
 
       `additionalKeys` myKeys
