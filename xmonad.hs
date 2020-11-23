@@ -66,7 +66,7 @@ myManageHook = (composeAll . concat $
     ]) where
       myIgnores = ["conky"]
       myFloats = ["Gimp", "Guake"]
-      myBorderless = ["Guake"]
+      myBorderless = ["Guake", "Termite"]
 
 xmonadModKey = mod1Mask
 
@@ -87,6 +87,7 @@ myKeys =
     , (( xmonadModKey .|. shiftMask, xK_s), spawn "~/.util/monitor-setup-2")
     , (( xmonadModKey .|. shiftMask, xK_d), spawn "~/.util/monitor-setup-3")
     , (( xmonadModKey .|. shiftMask, xK_f), spawn "~/.util/monitor-setup-4")
+    , (( xmonadModKey .|. shiftMask, xK_r), spawn "~/bin/tcolor -R")
     ] ++ [((m .|. xmonadModKey, k), windows $ f i) -- Replace 'xmonadModKey' with your mod key of choice.
          | (i, k) <- zip myWorkspaces [xK_1 .. xK_9]
          , (f, m) <- [(W.view, 0), (W.shift, shiftMask)]
