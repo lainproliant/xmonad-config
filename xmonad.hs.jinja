@@ -3,58 +3,47 @@ import XMonad
 import XMonad.Actions.NoBorders
 
 import XMonad.Hooks.DynamicLog
+import XMonad.Hooks.EwmhDesktops
 import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.ManageHelpers
 import XMonad.Hooks.SetWMName
 import XMonad.Hooks.UrgencyHook
-import XMonad.Hooks.EwmhDesktops
 
 import XMonad.Layout.Dishes
+import XMonad.Layout.Grid
 import XMonad.Layout.LayoutHints
 import XMonad.Layout.NoBorders
 import XMonad.Layout.Reflect
 import XMonad.Layout.Spacing
 import XMonad.Layout.Spiral
+import XMonad.Layout.ThreeColumns
 
 import XMonad.Util.EZConfig
 import XMonad.Util.Run
 
+import qualified Codec.Binary.UTF8.String as UTF8
 import qualified DBus as D
 import qualified DBus.Client as D
-import qualified Codec.Binary.UTF8.String as UTF8
-import qualified XMonad.StackSet as W
 import qualified Data.Map        as M
+import qualified XMonad.StackSet as W
 
-import System.IO
 import Control.Concurrent
+import System.IO
 
 import Data.List
 
 -- Define workspaces
 myWorkspaces = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"]
 
--- Define layout symbols
-myLayoutPrinter :: String -> String
-myLayoutPrinter "Full" = "[ ]"
-myLayoutPrinter "Tall" = "[]-"
-myLayoutPrinter "ReflectX Tall" = "-[]"
-myLayoutPrinter "Mirror Tall" = "[V]"
-myLayoutPrinter "ReflectY Mirror Tall" = "[^]"
-myLayoutPrinter "Spiral" = "(@)"
-myLayoutPrinter x = "==="
-
 -- Define layout
--- myLayout = avoidStruts layoutHints(tiled ||| Mirror tiled ||| Full)
-myLayout = avoidStruts(tiled ||| Mirror tiled ||| dishes ||| Full)
+myLayout = avoidStruts(tiled ||| reverse_tiled ||| threecol ||| Grid ||| Full)
    where
       tiled = Tall nmaster delta ratio
+      threecol = ThreeColMid nmaster delta ratio
+      reverse_tiled = reflectHoriz $ tiled
       nmaster = 1
-      ratio = 2/3
       delta = 5/100
-      dishes = Dishes 2 (1/6)
-      mySpiral = spiral (6/7)
-      myReverseTiled = reflectHoriz $ tiled
-      myReverseMirrorTiled = reflectVert $ Mirror tiled
+      ratio = 1/2
 
 myManageHook = (composeAll . concat $
     [ [manageDocks]

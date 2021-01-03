@@ -1,0 +1,102 @@
+#!/usr/bin/env python
+
+import subprocess
+import traceback
+import sys
+
+# -------------------------------------------------------------------
+circle_numbers = "0❶❷❸❹❺❻❼❽❾"
+
+
+# -------------------------------------------------------------------
+layout_reprs = {
+    "Tall": "[]=",
+    "ReflectX Tall": "=[]",
+    "ThreeCol": "] [",
+    "Grid": "[#]",
+    "Full": "[ ]"
+}
+
+# -------------------------------------------------------------------
+def xrdb_query():
+    resources = {}
+    output = subprocess.check_output(["xrdb", "-query"]).decode("utf-8")
+    lines = [x for x in output.split("\n") if x]
+
+    for line in lines:
+        key, value, *_ = (s.strip() for s in line.split(":"))
+        resources[key] = value
+
+    return resources
+
+
+# -------------------------------------------------------------------
+X11R = xrdb_query()
+
+
+# -------------------------------------------------------------------
+def active(s):
+    return f"%{{F{X11R['*_base09']}}}{s}%{{F-}}"
+
+
+# -------------------------------------------------------------------
+def focused(s):
+    return f"%{{F{X11R['*_base06']}}}{s}%{{F-}}"
+
+
+# -------------------------------------------------------------------
+def digestWorkspaces(line):
+    workspaces = line.split(":")[0].strip()
+    results = []
+    items = workspaces.split(" ")
+
+    for item in items:
+        if not item:
+            continue
+        if item.startswith("["):
+            results.append(focused(circle_numbers[int(item[1])]))
+        elif item.startswith("<"):
+            results.append(active(circle_numbers[int(item[1])]))
+        else:
+            results.append(circle_numbers[int(item)])
+
+    return f" {' '.join(results)}"
+
+
+# -------------------------------------------------------------------
+def digestLayout(line):
+    layout = line.split(":")[1].strip()
+    layout = layout_reprs.get(layout, layout)
+    return focused(layout)
+
+
+# -------------------------------------------------------------------
+def digestWindow(line):
+    window = ":".join(line.split(":")[2:]).strip()
+    return window
+
+
+# -------------------------------------------------------------------
+def digestXMonadLogLine(line):
+    try:
+        print(digestWorkspaces(line), digestLayout(line), digestWindow(line))
+        sys.stdout.flush()
+
+    except Exception:
+        traceback.print_exc()
+
+
+# -------------------------------------------------------------------
+def main():
+    proc = subprocess.Popen(["xmonad-log"], stdout=subprocess.PIPE, shell=False)
+
+    while True:
+        line = proc.stdout.readline()
+        if not line:
+            break
+        digestXMonadLogLine(line.decode("utf-8"))
+
+
+# -------------------------------------------------------------------
+if __name__ == "__main__":
+    main()
