@@ -66,7 +66,7 @@ myManageHook = (composeAll . concat $
     ]) where
       myIgnores = ["conky"]
       myFloats = ["Gimp", "Guake"]
-      myBorderless = ["Guake", "Termite"]
+      myBorderless = ["Guake"]
 
 xmonadModKey = mod1Mask
 
@@ -88,6 +88,7 @@ myKeys =
     , (( xmonadModKey .|. shiftMask, xK_d), spawn "~/.util/monitor-setup-3")
     , (( xmonadModKey .|. shiftMask, xK_f), spawn "~/.util/monitor-setup-4")
     , (( xmonadModKey .|. shiftMask, xK_r), spawn "~/bin/tcolor -R")
+    , (( xmonadModKey .|. shiftMask, xK_BackSpace ), spawn "amixer set Capture toggle")
     ] ++ [((m .|. xmonadModKey, k), windows $ f i) -- Replace 'xmonadModKey' with your mod key of choice.
          | (i, k) <- zip myWorkspaces [xK_1 .. xK_9]
          , (f, m) <- [(W.view, 0), (W.shift, shiftMask)]
@@ -121,8 +122,8 @@ main = do
    xmonad $ ewmh $ withUrgencyHook NoUrgencyHook $ defaultConfig
       { startupHook = setWMName "LG3D"
       , borderWidth = 2
-      , normalBorderColor = "#000000"
-      , focusedBorderColor = "#b5b3aa"
+      , normalBorderColor = "#001535"
+      , focusedBorderColor = "#ffffff"
       , focusFollowsMouse = False
       , workspaces = myWorkspaces
       , layoutHook = smartBorders $ myLayout
