@@ -59,34 +59,6 @@ myManageHook = (composeAll . concat $
 
 xmonadModKey = mod1Mask
 
-myKeys =
-    [ (( xmonadModKey, xK_Return ), spawn "~/.util/program_menu")
-    , (( xmonadModKey, xK_Tab ), spawn "~/.util/window_menu")
-    , (( xmonadModKey, xK_backslash ), spawn "~/.util/host_menu")
-    , (( xmonadModKey .|. shiftMask, xK_l ), spawn "~/.util/lock")
-    , (( xmonadModKey, xK_o), spawn "nextbg.py")
-    , (( xmonadModKey, xK_p), spawn "nextbg.py --prev")
-    , (( xmonadModKey .|. shiftMask, xK_p), spawn "~/.util/macro")
-    , (( xmonadModKey, xK_i), windows W.swapMaster)
-    , (( xmonadModKey .|. shiftMask, xK_m), spawn "~/.util/enable_touchpad")
-    , (( xmonadModKey .|. shiftMask, xK_n), spawn "~/.util/disable_touchpad")
-    , (( xmonadModKey, xK_b), sendMessage ToggleStruts)
-    , (( xmonadModKey .|. shiftMask, xK_b), withFocused toggleBorder)
-    , (( xmonadModKey .|. shiftMask, xK_a), spawn "~/.util/monitor-setup-1")
-    , (( xmonadModKey .|. shiftMask, xK_s), spawn "~/.util/monitor-setup-2")
-    , (( xmonadModKey .|. shiftMask, xK_d), spawn "~/.util/monitor-setup-3")
-    , (( xmonadModKey .|. shiftMask, xK_f), spawn "~/.util/monitor-setup-4")
-    , (( xmonadModKey .|. shiftMask, xK_r), spawn "~/bin/tcolor -R")
-    , (( xmonadModKey .|. shiftMask, xK_BackSpace ), spawn "amixer set Capture toggle")
-    ] ++ [((m .|. xmonadModKey, k), windows $ f i) -- Replace 'xmonadModKey' with your mod key of choice.
-         | (i, k) <- zip myWorkspaces [xK_1 .. xK_9]
-         , (f, m) <- [(W.view, 0), (W.shift, shiftMask)]
-    ] ++ [((m .|. xmonadModKey .|. controlMask, k), windows $ f i) -- Replace 'xmonadModKey' with your mod key of choice.
-         | (i, k) <- zip myWorkspaces [xK_1 .. xK_9]
-         , (f, m) <- [(W.greedyView, 0), (W.shift, shiftMask)]
-    ]
-
-
 myLogHook :: D.Client -> PP
 myLogHook dbus = def {ppOutput = dbusOutput dbus}
 
@@ -124,3 +96,31 @@ main = do
       }
 
       `additionalKeys` myKeys
+
+myKeys =
+    [ (( xmonadModKey, xK_Return ), spawn "~/.util/program_menu")
+    , (( xmonadModKey, xK_Tab ), spawn "~/.util/window_menu")
+    , (( xmonadModKey, xK_backslash ), spawn "~/.util/host_menu")
+    , (( xmonadModKey .|. shiftMask, xK_l ), spawn "~/.util/lock")
+    , (( xmonadModKey, xK_o), spawn "nextbg.py")
+    , (( xmonadModKey, xK_p), spawn "nextbg.py --prev")
+    , (( xmonadModKey .|. shiftMask, xK_o), spawn "qutebrowser")
+    , (( xmonadModKey .|. shiftMask, xK_p), spawn "~/.util/macro")
+    , (( xmonadModKey, xK_i), windows W.swapMaster)
+    , (( xmonadModKey .|. shiftMask, xK_m), spawn "~/.util/enable_touchpad")
+    , (( xmonadModKey .|. shiftMask, xK_n), spawn "~/.util/disable_touchpad")
+    , (( xmonadModKey, xK_b), sendMessage ToggleStruts)
+    , (( xmonadModKey .|. shiftMask, xK_b), withFocused toggleBorder)
+    , (( xmonadModKey .|. shiftMask, xK_a), spawn "~/.util/monitor-setup-1")
+    , (( xmonadModKey .|. shiftMask, xK_s), spawn "~/.util/monitor-setup-2")
+    , (( xmonadModKey .|. shiftMask, xK_d), spawn "~/.util/monitor-setup-3")
+    , (( xmonadModKey .|. shiftMask, xK_f), spawn "~/.util/monitor-setup-4")
+    , (( xmonadModKey .|. shiftMask, xK_r), spawn "~/bin/tcolor -R")
+    , (( xmonadModKey .|. shiftMask, xK_BackSpace ), spawn "amixer set Capture toggle")
+    ] ++ [((m .|. xmonadModKey, k), windows $ f i) -- Replace 'xmonadModKey' with your mod key of choice.
+         | (i, k) <- zip myWorkspaces [xK_1 .. xK_9]
+         , (f, m) <- [(W.view, 0), (W.shift, shiftMask)]
+    ] ++ [((m .|. xmonadModKey .|. controlMask, k), windows $ f i) -- Replace 'xmonadModKey' with your mod key of choice.
+         | (i, k) <- zip myWorkspaces [xK_1 .. xK_9]
+         , (f, m) <- [(W.greedyView, 0), (W.shift, shiftMask)]
+    ]
