@@ -111,8 +111,8 @@ main = do
    xmonad $ ewmh $ withUrgencyHook NoUrgencyHook $ defaultConfig
       { startupHook = setWMName "LG3D"
       , borderWidth = 2
-      , normalBorderColor = "#001100"
-      , focusedBorderColor = "#00bb00"
+      , normalBorderColor = "#030325"
+      , focusedBorderColor = "#a7c4a6"
       , focusFollowsMouse = False
       , workspaces = myWorkspaces
       , layoutHook = smartBorders $ myLayout
