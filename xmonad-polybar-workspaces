@@ -35,13 +35,18 @@ X11R = xrdb_query()
 
 
 # -------------------------------------------------------------------
+def unactive(s):
+    return f"%{{F{X11R['*_base08']}}}{s}%{{F-}}"
+
+
+# -------------------------------------------------------------------
 def active(s):
-    return f"%{{F{X11R['*_base06']}}}{s}%{{F-}}"
+    return f"%{{F{X11R['*_base03']}}}{s}%{{F-}}"
 
 
 # -------------------------------------------------------------------
 def focused(s):
-    return f"%{{F{X11R['*_base08']}}}{s}%{{F-}}"
+    return f"%{{F{X11R['*_base06']}}}{s}%{{F-}}"
 
 
 # -------------------------------------------------------------------
@@ -58,7 +63,7 @@ def digestWorkspaces(line):
         elif item.startswith("<"):
             results.append(active(circle_numbers[int(item[1])]))
         else:
-            results.append(circle_numbers[int(item)])
+            results.append(unactive(circle_numbers[int(item)]))
 
     return f" {' '.join(results)}"
 
