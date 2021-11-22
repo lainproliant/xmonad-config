@@ -126,4 +126,5 @@ myKeys =
          , (f, m) <- [(W.greedyView, 0), (W.shift, shiftMask)]
     ] ++ [((m .|. xmonadModKey, k), f sc)
          | (k, sc) <- zip [xK_w, xK_e, xK_r] [0..]
-         , (f, m) <- [(viewScreen def, 0), (sendToScreen def, shiftMask)]]
+         , (f, m) <- [(viewScreen def, 0), (sendToScreen def, shiftMask)]
+    ]

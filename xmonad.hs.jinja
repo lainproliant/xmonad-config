@@ -1,6 +1,7 @@
 import XMonad
 
 import XMonad.Actions.NoBorders
+import XMonad.Actions.PhysicalScreens
 
 import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.EwmhDesktops
@@ -123,4 +124,7 @@ myKeys =
     ] ++ [((m .|. xmonadModKey .|. controlMask, k), windows $ f i) -- Replace 'xmonadModKey' with your mod key of choice.
          | (i, k) <- zip myWorkspaces [xK_1 .. xK_9]
          , (f, m) <- [(W.greedyView, 0), (W.shift, shiftMask)]
+    ] ++ [((m .|. xmonadModKey, k), f sc)
+         | (k, sc) <- zip [xK_w, xK_e, xK_r] [0..]
+         , (f, m) <- [(viewScreen def, 0), (sendToScreen def, shiftMask)]
     ]
