@@ -5,6 +5,7 @@ import XMonad.Actions.PhysicalScreens
 
 import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.EwmhDesktops
+import XMonad.Hooks.FadeInactive
 import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.ManageHelpers
 import XMonad.Hooks.SetWMName
@@ -23,9 +24,8 @@ import XMonad.Util.EZConfig
 import XMonad.Util.Run
 
 import qualified Codec.Binary.UTF8.String as UTF8
-import qualified DBus as D
-import qualified DBus.Client as D
 import qualified Data.Map        as M
+import qualified Data.Set        as S
 import qualified XMonad.StackSet as W
 
 import Control.Concurrent
@@ -34,7 +34,7 @@ import System.IO
 import Data.List
 
 -- Define workspaces
-myWorkspaces = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"]
+myWorkspaces = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
 
 -- Define layout
 myLayout = avoidStruts(tiled ||| reverse_tiled ||| threecol ||| Grid ||| Full)
@@ -60,28 +60,10 @@ myManageHook = (composeAll . concat $
 
 xmonadModKey = mod1Mask
 
-myLogHook :: D.Client -> PP
-myLogHook dbus = def {ppOutput = dbusOutput dbus}
-
--- Emit a DBus signal on log updates
-dbusOutput :: D.Client -> String -> IO ()
-dbusOutput dbus str = do
-    let signal = (D.signal objectPath interfaceName memberName) {
-            D.signalBody = [D.toVariant $ UTF8.decodeString str]
-        }
-    D.emit dbus signal
-  where
-    objectPath = D.objectPath_ "/org/xmonad/Log"
-    interfaceName = D.interfaceName_ "org.xmonad.Log"
-    memberName = D.memberName_ "Update"
-
 main = do
    spawn "~/.dotfiles/xinit/twm-common"
    spawn "~/.dotfiles/xinit/xmonad"
-   dbus <- D.connectSession
-   D.requestName dbus (D.busName_ "org.xmonad.Log")
-      [D.nameAllowReplacement, D.nameReplaceExisting, D.nameDoNotQueue]
-   xmonad $ ewmh $ withUrgencyHook NoUrgencyHook $ defaultConfig
+   xmonad $ ewmh $ defaultConfig
       { startupHook = setWMName "LG3D"
       , borderWidth = 2
       , normalBorderColor = "#001535"
@@ -90,8 +72,8 @@ main = do
       , workspaces = myWorkspaces
       , layoutHook = smartBorders $ myLayout
       , manageHook = myManageHook
-      , handleEventHook = docksEventHook
-      , logHook = dynamicLogWithPP (myLogHook dbus)
+      , handleEventHook = ewmhDesktopsEventHook <+> docksEventHook
+      , logHook = ewmhDesktopsLogHook
       , terminal = "~/.util/terminal"
       , modMask = xmonadModKey
       }
